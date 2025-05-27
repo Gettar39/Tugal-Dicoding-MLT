@@ -1,4 +1,4 @@
-# Laporan Proyek Machine Learning - Ivan Jaelani Besti
+# Laporan Proyek Machine Learning - Gettar Adhi Pinaringan
 
 ## Domain Proyek
 
@@ -239,12 +239,21 @@ Langkah-langkah ini penting untuk mengidentifikasi kebutuhan data cleaning dan n
 Tahap ini bertujuan untuk menyiapkan data sebelum digunakan dalam proses pelatihan model machine learning. Berdasarkan hasil eksplorasi awal (EDA) di tahap Data Understanding, terdapat beberapa hal yang perlu diperhatikan dalam proses ini, seperti distribusi fitur yang tidak seragam, dan perbedaan skala antar fitur pada tahap Data Understanding. Oleh karena itu tahap ini akan dilanjutkan dengan proses normalisasi, dan splitting data.
 
 ### Normalisasi Data
-Skala antar fitur sangat bervariasi, misalnya kadar `Glucose` berkisar antara 0 hingga 200, sementara `DiabetesPedigreeFunction` hanya berkisar 0 hingga 2. Untuk menghindari bias model terhadap fitur dengan skala besar, dilakukan proses **normalisasi menggunakan StandardScaler**.
+Skala antar fitur sangat bervariasi, misalnya kadar `total sulfur dioxide` berkisar antara 6 hingga 289, sementara `citric acid` hanya berkisar 0.19 hingga 1. Untuk menghindari bias model terhadap fitur dengan skala besar, dilakukan proses **normalisasi menggunakan StandardScaler**.
 ```python
 # Statistik deskriptif untuk fitur numerik
 df.describe()
 ```
-![abnormal](abnormal.png)
+|index|fixed acidity|volatile acidity|citric acid|residual sugar|chlorides|free sulfur dioxide|total sulfur dioxide|density|pH|sulphates|alcohol|quality\_binary|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|count|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|1599\.0|
+|mean|8\.31963727329581|0\.5278205128205128|0\.2709756097560976|2\.53880550343965|0\.08746654158849279|15\.874921826141339|46\.46779237023139|0\.9967466791744841|3\.3111131957473416|0\.6581488430268917|10\.422983114446529|0\.1357098186366479|
+|std|1\.7410963181277006|0\.17905970415353498|0\.19480113740531785|1\.4099280595072805|0\.047065302010090154|10\.46015696980973|32\.89532447829901|0\.0018873339538425559|0\.15438646490354266|0\.16950697959010977|1\.0656675818473926|0\.3425873077431279|
+|min|4\.6|0\.12|0\.0|0\.9|0\.012|1\.0|6\.0|0\.99007|2\.74|0\.33|8\.4|0\.0|
+|25%|7\.1|0\.39|0\.09|1\.9|0\.07|7\.0|22\.0|0\.9956|3\.21|0\.55|9\.5|0\.0|
+|50%|7\.9|0\.52|0\.26|2\.2|0\.079|14\.0|38\.0|0\.99675|3\.31|0\.62|10\.2|0\.0|
+|75%|9\.2|0\.64|0\.42|2\.6|0\.09|21\.0|62\.0|0\.997835|3\.4|0\.73|11\.1|0\.0|
+|max|15\.9|1\.58|1\.0|15\.5|0\.611|72\.0|289\.0|1\.00369|4\.01|2\.0|14\.9|1\.0|
 
 ```python
 # Normalisasi Data
@@ -254,7 +263,14 @@ scaled_features = scaler.fit_transform(features)
 scaled_df = pd.DataFrame(scaled_features, columns=features.columns)
 scaled_df['Outcome'] = df['Outcome']
 ```
-![normal](normal.png)
+|index|fixed acidity|volatile acidity|citric acid|residual sugar|chlorides|free sulfur dioxide|total sulfur dioxide|density|pH|sulphates|alcohol|quality_binary|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|0|-0.5244|0.9320|-1.3933|-0.4612|-0.2456|-0.4686|-0.3840|0.5840|1.2919|-0.5786|-0.9544|0.0|
+|1|-0.2941|1.9158|-1.3933|0.0567|0.2001|0.8720|0.6041|0.0487|-0.7084|0.1248|-0.5846|0.0|
+|2|-0.2941|1.2599|-1.1886|-0.1653|0.0785|-0.0855|0.2148|0.1558|-0.3212|-0.0510|-0.5846|0.0|
+|3|1.6641|-1.3635|1.4717|-0.4612|-0.2659|0.1060|0.3945|0.6911|-0.9665|-0.4613|-0.5846|1.0|
+|4|-0.5244|0.7134|-1.3933|-0.5351|-0.2659|-0.2770|-0.2044|0.5840|1.2919|-0.5786|-0.9544|NaN|
+
 
 ### Splitting Dataset
 Dataset dibagi menjadi 80% data latih dan 20% data uji. Data latih digunakan untuk membangun model, sementara data uji digunakan untuk mengevaluasi kinerja model. Pembagian ini memastikan bahwa model dapat diuji dengan data yang tidak pernah dilihat sebelumnya, memberikan gambaran yang lebih akurat tentang kemampuan generalisasi model.
@@ -269,16 +285,16 @@ y = scaled_df['Outcome']  # Target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 ```
 ```bash
-Ukuran data latih: 614 | Ukuran data uji: 154
+Ukuran data latih: 1087 | Ukuran data uji: 272
 ```
 
 ## Modeling
 
-Tahap modeling bertujuan untuk membangun dan mengevaluasi model machine learning yang mampu mengklasifikasikan apakah seseorang mengidap diabetes berdasarkan data medis yang tersedia. Beberapa algoritma dikembangkan dan dibandingkan berdasarkan metrik evaluasi untuk menentukan model terbaik secara objektif.
+Tahap modeling bertujuan untuk membangun dan mengevaluasi model machine learning yang mampu mengklasifikasikan Kualitas Anggur bagus atau tidak berdasarkan data medis yang tersedia. Beberapa algoritma dikembangkan dan dibandingkan berdasarkan metrik evaluasi untuk menentukan model terbaik secara objektif.
 
 ### Algoritma yang Digunakan
 
-Tiga algoritma klasifikasi digunakan dalam proyek ini. Pemilihan algoritma ini dilakukan berdasarkan kesesuaiannya dengan karakteristik data dan popularitasnya dalam studi diagnosis medis:
+Tiga algoritma klasifikasi digunakan dalam proyek ini. Pemilihan algoritma ini dilakukan berdasarkan kesesuaiannya dengan karakteristik data :
 
 #### 1. **Logistic Regression** 
 
