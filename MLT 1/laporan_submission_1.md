@@ -100,7 +100,6 @@ memory usage: 150.0 KB
 ```
 Dataset ini terdiri dari 1599 entri dan 11 kolom. Semua kolom tidak mengandung nilai yang hilang. Tipe data untuk mayoritas kolom adalah float, kecuali kolom **quality_binary**, yang memiliki tipe data integer.
 
-```
 |index|fixed acidity|volatile acidity|citric acid|residual sugar|chlorides|free sulfur dioxide|total sulfur dioxide|density|pH|sulphates|alcohol|quality\_binary|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 |0|7\.4|0\.7|0\.0|1\.9|0\.076|11\.0|34\.0|0\.9978|3\.51|0\.56|9\.4|0|
@@ -109,12 +108,14 @@ Dataset ini terdiri dari 1599 entri dan 11 kolom. Semua kolom tidak mengandung n
 |3|11\.2|0\.28|0\.56|1\.9|0\.075|17\.0|60\.0|0\.998|3\.16|0\.58|9\.8|0|
 |4|7\.4|0\.7|0\.0|1\.9|0\.076|11\.0|34\.0|0\.9978|3\.51|0\.56|9\.4|0|
 
-```
+Di atas ini adalah beberapa baris pertama dari dataset **Wine Quality**. Setiap baris merepresentasikan satu sampel anggur merah dengan sejumlah fitur kimia dan fisik seperti keasaman, kadar alkohol, dan kandungan sulfat, yang digunakan untuk memprediksi kualitas anggur.
 
-Tabel statistik deskriptif memberikan gambaran mengenai distribusi fitur numerik dalam dataset. Beberapa informasi yang menarik dari statistik deskriptif ini adalah:
-- Kolom **Glucose** memiliki nilai rata-rata sekitar 120, dengan nilai minimum 0 yang menunjukkan kemungkinan adanya data yang perlu ditangani (misalnya, nilai 0 bisa berarti data hilang atau tidak valid).
-- Kolom **Insulin** juga memiliki nilai minimum 0, yang menunjukkan adanya kemungkinan nilai 0 pada data yang memerlukan penanganan khusus.
-- Kolom **BMI** memiliki rata-rata sekitar 31, dengan nilai maksimum hingga 67, yang menunjukkan rentang variasi yang cukup besar dalam data.
+
+* **Sampel 1** memiliki kadar **fixed acidity** 7.4, **volatile acidity** 0.70, tanpa kandungan **citric acid**, dengan kadar alkohol 9.4%, dan termasuk dalam kategori anggur **berkualitas rendah**.
+* **Sampel 2** memiliki tingkat keasaman volatil yang lebih tinggi (0.88) dan kadar alkohol 9.8%, namun tetap diklasifikasikan sebagai **berkualitas rendah**.
+* **Sampel 3** memiliki sedikit **citric acid** (0.04) dan **residual sugar** 2.3 g/L, dengan kadar sulfur sedang dan kepadatan (density) 0.9970.
+* **Sampel 4** unik karena memiliki **fixed acidity** cukup tinggi (11.2) dan **citric acid** yang signifikan (0.56), namun tetap tergolong **berkualitas rendah**.
+
 
 Beberapa fitur perlu dinormalisasi agar tidak menimbulkan bias.
 
@@ -127,49 +128,108 @@ print("Missing values per column:")
 print(df.isnull().sum())
 ```
 ```bash
-Missing values per column:
-Pregnancies                 0
-Glucose                     0
-BloodPressure               0
-SkinThickness               0
-Insulin                     0
-BMI                         0
-DiabetesPedigreeFunction    0
-Age                         0
-Outcome                     0
+fixed acidity           0
+volatile acidity        0
+citric acid             0
+residual sugar          0
+chlorides               0
+free sulfur dioxide     0
+total sulfur dioxide    0
+density                 0
+pH                      0
+sulphates               0
+alcohol                 0
+quality_binary          0
 dtype: int64
 ```
 
 ### Verifikasi Nilai Duplikat
 ```
-Jumlah baris duplikat: 0
+Jumlah baris duplikat: 240
 Baris duplikat:
-Empty DataFrame
-Columns: [Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age, Outcome]
-Index: []
+      fixed acidity  volatile acidity  citric acid  residual sugar  chlorides  \
+4               7.4             0.700         0.00            1.90      0.076   
+11              7.5             0.500         0.36            6.10      0.071   
+27              7.9             0.430         0.21            1.60      0.106   
+40              7.3             0.450         0.36            5.90      0.074   
+65              7.2             0.725         0.05            4.65      0.086   
+...             ...               ...          ...             ...        ...   
+1563            7.2             0.695         0.13            2.00      0.076   
+1564            7.2             0.695         0.13            2.00      0.076   
+1567            7.2             0.695         0.13            2.00      0.076   
+1581            6.2             0.560         0.09            1.70      0.053   
+1596            6.3             0.510         0.13            2.30      0.076   
+
+      free sulfur dioxide  total sulfur dioxide  density    pH  sulphates  \
+4                    11.0                  34.0  0.99780  3.51       0.56   
+11                   17.0                 102.0  0.99780  3.35       0.80   
+27                   10.0                  37.0  0.99660  3.17       0.91   
+40                   12.0                  87.0  0.99780  3.33       0.83   
+65                    4.0                  11.0  0.99620  3.41       0.39   
+...                   ...                   ...      ...   ...        ...   
+1563                 12.0                  20.0  0.99546  3.29       0.54   
+1564                 12.0                  20.0  0.99546  3.29       0.54   
+1567                 12.0                  20.0  0.99546  3.29       0.54   
+1581                 24.0                  32.0  0.99402  3.54       0.60   
+1596                 29.0                  40.0  0.99574  3.42       0.75   
+
+      alcohol  quality_binary  
+4         9.4               0  
+11       10.5               0  
+27        9.5               0  
+40       10.5               0  
+65       10.9               0  
+...       ...             ...  
+1563     10.1               0  
+1564     10.1               0  
+1567     10.1               0  
+1581     11.3               0  
+1596     11.0               0  
+
 ```
 
-Dapat dilihat bahwa dataset yang dipakai pada proyek saat ini tidak mengandung data duplikat. Sehingga tahapan proyek dapat dilanjutkan ke tahap pengecekan distribusi data dan pengecekan nilai outlier
+Dapat dilihat bahwa dataset yang dipakai pada proyek saat ini mengandung data duplikat. Maka kita hapus terlebih Dahulu duplikat yanga ada yang setelah dihapus akan kita pastikan kembali
+```
+Jumlah data setelah menghapus duplikat: 1359
+```
 
+Sehingga tahapan proyek dapat dilanjutkan ke tahap pengecekan distribusi data dan pengecekan nilai outlier
 
 ### Analisis Distribusi, Outlier, Korelasi 
 
 #### Distribusi
-Hasil visualisasi histogram menunjukkan bahwa beberapa fitur seperti `Pregnancies`, `Insulin`, dan `Age` memiliki distribusi miring (skewed), sementara fitur seperti `BMI` dan `Glucose` lebih mendekati distribusi normal.  
-![distribusi](distribusi.png)
+* Beberapa fitur seperti **fixed acidity**, **volatile acidity**, **residual sugar**, **chlorides**, **free sulfur dioxide**, **total sulfur dioxide**, **sulphates**, dan **alcohol** menunjukkan distribusi yang **miring ke kanan** (*positively skewed*), yang berarti sebagian besar data berada di sisi kiri (nilai kecil) dan ekornya panjang ke arah kanan.
+* Fitur **citric acid** juga menunjukkan kecenderungan distribusi yang miring, meskipun terlihat adanya beberapa puncak (*multimodal*), menunjukkan kemungkinan adanya klaster data.
+* Fitur **density** dan **pH** tampak memiliki **distribusi yang mendekati normal** (simetris dan berbentuk lonceng).
+* Fitur **citric acid** dan **residual sugar** menunjukkan kemungkinan adanya **multimodalitas**, yaitu lebih dari satu puncak, yang bisa menandakan adanya kelompok berbeda dalam data.
+* Fitur **chlorides**, **free sulfur dioxide**, dan **total sulfur dioxide** menunjukkan nilai ekstrem di sisi kanan (outlier potensial). 
+![distribusi](Img/distribusi.png)
 
 #### Boxplot
-Boxplot menunjukkan keberadaan **outlier** pada fitur `Insulin`, `SkinThickness`, dan `DiabetesPedigreeFunction`.
-![boxplot](boxplot.png)
+* **`total sulfur dioxide`** dan **`free sulfur dioxide`** memiliki sebaran nilai yang sangat lebar dengan banyak outlier di sisi atas, menandakan adanya sampel dengan konsentrasi sulfur yang sangat tinggi.
+* **`residual sugar`** juga menunjukkan beberapa outlier ekstrem, yang kemungkinan berasal dari sampel anggur dengan kadar gula sisa yang tidak biasa tinggi.
+* **`alcohol`**, **`fixed acidity`**, dan **`sulphates`** memiliki distribusi yang lebih sempit, namun tetap menunjukkan beberapa nilai ekstrem.
+* Fitur seperti **`citric acid`**, **`volatile acidity`**, dan **`chlorides`** tampak memiliki distribusi yang lebih terkonsentrasi.
+![boxplot](Img/boxplot.png)
 
 Namun, karena tujuan dari proyek ini adalah **deteksi diabetes**, maka outlier **tidak dihapus** karena bisa merepresentasikan kondisi medis yang valid dan penting (misalnya kadar glukosa sangat tinggi atau pasien dengan riwayat keluarga kuat).
 
 #### Matriks Korelasi
 
-![corr](corr.png)
-- Fitur **Glucose** memiliki korelasi paling tinggi terhadap target `Outcome` (**r = 0.47**), menunjukkan bahwa kadar glukosa darah sangat mempengaruhi klasifikasi diabetes.
-- **BMI** dan **Age** juga memiliki korelasi sedang terhadap `Outcome`.
-- Sebagian besar fitur lainnya menunjukkan korelasi rendah satu sama lain, mengindikasikan rendahnya multikolinearitas.
+![corr](Img/corr.png)
+* **Fitur `alcohol` memiliki korelasi tertinggi terhadap `quality_binary`** dengan nilai **r = 0.41**, menunjukkan bahwa **semakin tinggi kadar alkohol, cenderung semakin tinggi pula kualitas anggur merah**.
+
+* Fitur lain yang juga memiliki korelasi **positif** terhadap target (meskipun lemah hingga sedang):
+
+  * `sulphates`: **r = 0.25**
+  * `citric acid`: **r = 0.20**
+
+* Fitur yang menunjukkan korelasi **negatif** terhadap `quality_binary`:
+
+  * `volatile acidity`: **r = -0.27**
+  * `density`: **r = -0.16**
+  * `total sulfur dioxide`: **r = -0.14**
+  * `chlorides`: **r = -0.10**
 
 
 Langkah-langkah ini penting untuk mengidentifikasi kebutuhan data cleaning dan normalisasi pada tahap selanjutnya.
