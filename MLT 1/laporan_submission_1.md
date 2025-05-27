@@ -2,13 +2,15 @@
 
 ## Domain Proyek
 
-Diabetes mellitus merupakan salah satu penyakit kronis paling umum di dunia, dengan dampak jangka panjang yang serius terhadap kesehatan jika tidak terdeteksi dan ditangani sejak dini. Organisasi Kesehatan Dunia (WHO) mencatat peningkatan kasus diabetes secara global dari tahun ke tahun, menandakan urgensi dalam pengembangan solusi diagnosis yang lebih cepat dan akurat. Diagnosis dini sangat penting untuk mencegah komplikasi serius seperti penyakit jantung, gagal ginjal, dan kebutaan.
+Kualitas anggur merupakan salah satu faktor utama yang menentukan nilai jual dan daya saing produk di industri wine. Penilaian kualitas secara konvensional biasanya dilakukan oleh panel ahli melalui proses pencicipan (tasting), yang bersifat subjektif, membutuhkan waktu, serta mahal dari segi biaya dan sumber daya manusia. Tantangan ini semakin besar ketika produsen harus mengelola volume produksi besar dengan tetap menjaga konsistensi mutu.
 
-Namun, metode diagnosis tradisional seperti tes darah laboratorium membutuhkan waktu dan sumber daya medis yang tidak selalu tersedia, terutama di daerah dengan akses kesehatan terbatas. Oleh karena itu, penerapan teknologi machine learning dalam klasifikasi data medis menjadi pendekatan yang sangat relevan dan potensial. Dengan kemampuan untuk mempelajari pola dari data pasien, machine learning dapat digunakan untuk memprediksi kemungkinan diabetes secara otomatis, cepat, dan relatif murah.
+Dengan berkembangnya teknologi analitik dan kecerdasan buatan, khususnya machine learning, kini dimungkinkan untuk memprediksi kualitas anggur berdasarkan parameter fisikokimia yang diukur secara objektif di laboratorium. Parameter tersebut meliputi kadar alkohol, keasaman, pH, kadar gula, sulfur dioksida, dan lainnya, yang dapat dikumpulkan secara efisien tanpa perlu proses sensorik yang kompleks.
 
 Studi terkini menunjukkan bahwa berbagai algoritma machine learning seperti logistic regression, support vector machine, decision tree, dan random forest telah berhasil digunakan dalam sistem deteksi dini diabetes dengan tingkat akurasi yang tinggi. Ini adalah ([Das et al., 2023](https://doi.org/10.1109/IEMENTech60402.2023.10423472)), ([Sinha et al., 2024](https://doi.org/10.1109/ICAAIC60222.2024.10575581)), dan ([Alzboon et al., 2023](https://doi.org/10.3991/ijoe.v19i15.42417)).
 
-Dengan memanfaatkan dataset seperti Pima Indian Diabetes Dataset yang telah banyak digunakan dalam penelitian, proyek ini bertujuan mengembangkan sistem klasifikasi diabetes berbasis machine learning yang dapat membantu tenaga medis dalam membuat keputusan awal secara lebih objektif dan efisien.
+Salah satu dataset yang sering digunakan untuk penelitian ini adalah Wine Quality Dataset, khususnya untuk anggur merah (, yang berisi data dari pengujian laboratorium terhadap sampel anggur dengan kualitas yang telah diberi label oleh ahli.
+
+Proyek ini bertujuan untuk mengembangkan sistem prediksi kualitas anggur merah menggunakan pendekatan machine learning yang andal, cepat, dan dapat diintegrasikan dalam proses kontrol kualitas pada industri wine.
 
 ### Referensi
 - Das, S., Ghosh, S., Kumar, S., Ganguly, G., & Devi, G. U. (2023). *Diabetes Detection System using Machine Learning*. 2023 7th International Conference on Electronics, Materials Engineering & Nano-Technology (IEMENTech). https://doi.org/10.1109/IEMENTech60402.2023.10423472
@@ -45,61 +47,67 @@ Pendekatan ini memastikan bahwa model yang dibangun tidak hanya akurat tetapi ju
 
 ## Data Understanding
 
-Dataset yang digunakan dalam proyek ini adalah **Pima Indians Diabetes Dataset**, yang berisi data rekam medis pasien perempuan keturunan Indian Pima berusia 21 tahun ke atas. Dataset ini sangat populer dalam studi deteksi dini diabetes dan tersedia secara publik melalui platform Kaggle:  
-📎 [Pima Indians Diabetes Dataset - Kaggle](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+Pada bagian ini, kita akan melakukan eksplorasi awal terhadap dataset kualitas anggur merah untuk memahami struktur data dan informasi yang terkandung di dalamnya. Dataset ini digunakan untuk memprediksi **kualitas anggur merah** berdasarkan parameter kimia dan fisik dataset tersedia secara publik melalui platform Kaggle:  
+📎 [Red Wine Quality - Kaggle](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009)
 
-Dataset ini terdiri dari **768 data observasi** dengan **8 fitur input numerik** dan **1 target output** (`Outcome`), yang menunjukkan apakah seseorang mengidap diabetes (1) atau tidak (0).
+#### **Informasi Dataset**
 
-### Variabel-variabel pada dataset adalah sebagai berikut:
-- **Pregnancies**: Jumlah kehamilan yang pernah dialami pasien.
-- **Glucose**: Kadar glukosa plasma dalam darah (mg/dL).
-- **BloodPressure**: Tekanan darah diastolik (mm Hg).
-- **SkinThickness**: Ketebalan lipatan kulit triceps (mm).
-- **Insulin**: Konsentrasi insulin dalam serum (mu U/ml).
-- **BMI**: Body Mass Index (kg/m²), mengukur berat badan relatif terhadap tinggi badan.
-- **DiabetesPedigreeFunction**: Skor fungsi silsilah diabetes, mengindikasikan faktor genetik.
-- **Age**: Usia pasien (tahun).
-- **Outcome**: Nilai 1 jika pasien terdiagnosis diabetes, dan 0 jika tidak.
+Dataset ini terdiri dari **1.599 sampel** anggur merah. Setiap baris mewakili satu sampel anggur, dan terdapat **11 fitur numerik** yang menggambarkan sifat kimia/fisik dari anggur tersebut, serta **1 kolom target** yaitu *quality_binary* yang merepresentasikan penilaian kualitas anggur (dalam skala integer).
+
+#### **Fitur-fitur dalam dataset ini adalah:**
+
+1. **fixed acidity**: Keasaman tetap (biasanya tartaric acid) dalam g/L
+2. **volatile acidity**: Keasaman volatil (biasanya acetic acid) dalam g/L
+3. **citric acid**: Kandungan asam sitrat dalam anggur
+4. **residual sugar**: Gula yang tersisa setelah fermentasi (g/L)
+5. **chlorides**: Kandungan garam dalam anggur (g/L)
+6. **free sulfur dioxide**: Jumlah SO₂ bebas (mg/L)
+7. **total sulfur dioxide**: Total SO₂ bebas dan terikat (mg/L)
+8. **density**: Massa jenis anggur (kg/m³)
+9. **pH**: Tingkat keasaman anggur
+10. **sulphates**: Kandungan sulfat (berkontribusi pada sulfur dioksida)
+11. **alcohol**: Kandungan alkohol (% vol)
+12. **quality_binary**: Skor kualitas anggur (target), dalam skala 0–1, tetapi umumnya antara 3–8. dikecilkan untuk meningkatkan akurasi  ke 0–1 dengan 0 kualitas rendah dan 1 kualitas tinggi
 
 ### Tahapan Exploratory Data Analysis (EDA)
 Untuk memahami data lebih dalam, beberapa langkah eksplorasi dilakukan, di antaranya:
 
 - **Mengecek Informasi & Statistik Deskriptif Dataset**: Menggunakan `.info` dan `.describe` untuk mengetahui informasi awal dan statistik deskriptif dari dataset.
-- **Cek Missing Values**: Mengevaluasi jumlah nilai 0 pada kolom seperti `Glucose`, `Insulin`, dan `SkinThickness`, yang bisa jadi merupakan data tidak tercatat (proxy untuk null).
+- **Cek Missing Values**: Mengevaluasi jumlah nilai 0 pada kolom seperti `residual_sugar`, `alcohol`, dan `chlorides`, yang bisa jadi merupakan data tidak tercatat (proxy untuk null).
 - **Pengecekan Duplicate Values**: Mengevaluasi dataset apakah mengandung data duplikat yang dapat memengaruhi hasil akhir dari model.
 - **Visualisasi**: Histogram dan boxplot digunakan untuk mendeteksi outlier dan distribusi dari fitur-fitur numerik, serta mengecek korelasi antar fitur menggunakan heatmap.
 
 ### Informasi Dataset
 ```
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 768 entries, 0 to 767
-Data columns (total 9 columns):
- #   Column                    Non-Null Count  Dtype  
----  ------                    --------------  -----  
- 0   Pregnancies               768 non-null    int64  
- 1   Glucose                   768 non-null    int64  
- 2   BloodPressure             768 non-null    int64  
- 3   SkinThickness             768 non-null    int64  
- 4   Insulin                   768 non-null    int64  
- 5   BMI                       768 non-null    float64
- 6   DiabetesPedigreeFunction  768 non-null    float64
- 7   Age                       768 non-null    int64  
- 8   Outcome                   768 non-null    int64  
-dtypes: float64(2), int64(7)
-memory usage: 54.1 KB
+RangeIndex: 1599 entries, 0 to 1598
+Data columns (total 12 columns):
+ #   Column                Non-Null Count  Dtype  
+---  ------                --------------  -----  
+ 0   fixed acidity         1599 non-null   float64
+ 1   volatile acidity      1599 non-null   float64
+ 2   citric acid           1599 non-null   float64
+ 3   residual sugar        1599 non-null   float64
+ 4   chlorides             1599 non-null   float64
+ 5   free sulfur dioxide   1599 non-null   float64
+ 6   total sulfur dioxide  1599 non-null   float64
+ 7   density               1599 non-null   float64
+ 8   pH                    1599 non-null   float64
+ 9   sulphates             1599 non-null   float64
+ 10  alcohol               1599 non-null   float64
+ 11  quality_binary        1599 non-null   int64  
+dtypes: float64(11), int64(1)
+memory usage: 150.0 KB
 ```
-Dataset ini terdiri dari 768 entri dan 9 kolom. Semua kolom tidak mengandung nilai yang hilang. Tipe data untuk mayoritas kolom adalah integer, kecuali kolom **DiabetesPedigreeFunction**, yang memiliki tipe data float.
+Dataset ini terdiri dari 1599 entri dan 11 kolom. Semua kolom tidak mengandung nilai yang hilang. Tipe data untuk mayoritas kolom adalah float, kecuali kolom **quality_binary**, yang memiliki tipe data integer.
 
 ```
-	Pregnancies	Glucose	BloodPressure	SkinThickness	Insulin	BMI	DiabetesPedigreeFunction	Age	Outcome
-count	768.000000	768.000000	768.000000	768.000000	768.000000	768.000000	768.000000	768.000000	768.000000
-mean	3.845052	120.894531	69.105469	20.536458	79.799479	31.992578	0.471876	33.240885	0.348958
-std	3.369578	31.972618	19.355807	15.952218	115.244002	7.884160	0.331329	11.760232	0.476951
-min	0.000000	0.000000	0.000000	0.000000	0.000000	0.000000	0.078000	21.000000	0.000000
-25%	1.000000	99.000000	62.000000	0.000000	0.000000	27.300000	0.243750	24.000000	0.000000
-50%	3.000000	117.000000	72.000000	23.000000	30.500000	32.000000	0.372500	29.000000	0.000000
-75%	6.000000	140.250000	80.000000	32.000000	127.250000	36.600000	0.626250	41.000000	1.000000
-max	17.000000	199.000000	122.000000	99.000000	846.000000	67.100000	2.420000	81.000000	1.000000
+fixed acidity	volatile acidity	citric acid	residual sugar	chlorides	free sulfur dioxide	total sulfur dioxide	density	pH	sulphates	alcohol	quality_binary
+0	7.4	0.70	0.00	1.9	0.076	11.0	34.0	0.9978	3.51	0.56	9.4	0
+1	7.8	0.88	0.00	2.6	0.098	25.0	67.0	0.9968	3.20	0.68	9.8	0
+2	7.8	0.76	0.04	2.3	0.092	15.0	54.0	0.9970	3.26	0.65	9.8	0
+3	11.2	0.28	0.56	1.9	0.075	17.0	60.0	0.9980	3.16	0.58	9.8	0
+4	7.4	0.70	0.00	1.9	0.076	11.0	34.0	0.9978	3.51	0.56	9.4	0
+
 ```
 
 Tabel statistik deskriptif memberikan gambaran mengenai distribusi fitur numerik dalam dataset. Beberapa informasi yang menarik dari statistik deskriptif ini adalah:
