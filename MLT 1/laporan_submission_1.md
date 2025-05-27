@@ -101,12 +101,13 @@ memory usage: 150.0 KB
 Dataset ini terdiri dari 1599 entri dan 11 kolom. Semua kolom tidak mengandung nilai yang hilang. Tipe data untuk mayoritas kolom adalah float, kecuali kolom **quality_binary**, yang memiliki tipe data integer.
 
 ```
-fixed acidity	volatile acidity	citric acid	residual sugar	chlorides	free sulfur dioxide	total sulfur dioxide	density	pH	sulphates	alcohol	quality_binary
-0	7.4	0.70	0.00	1.9	0.076	11.0	34.0	0.9978	3.51	0.56	9.4	0
-1	7.8	0.88	0.00	2.6	0.098	25.0	67.0	0.9968	3.20	0.68	9.8	0
-2	7.8	0.76	0.04	2.3	0.092	15.0	54.0	0.9970	3.26	0.65	9.8	0
-3	11.2	0.28	0.56	1.9	0.075	17.0	60.0	0.9980	3.16	0.58	9.8	0
-4	7.4	0.70	0.00	1.9	0.076	11.0	34.0	0.9978	3.51	0.56	9.4	0
+|index|fixed acidity|volatile acidity|citric acid|residual sugar|chlorides|free sulfur dioxide|total sulfur dioxide|density|pH|sulphates|alcohol|quality\_binary|
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|0|7\.4|0\.7|0\.0|1\.9|0\.076|11\.0|34\.0|0\.9978|3\.51|0\.56|9\.4|0|
+|1|7\.8|0\.88|0\.0|2\.6|0\.098|25\.0|67\.0|0\.9968|3\.2|0\.68|9\.8|0|
+|2|7\.8|0\.76|0\.04|2\.3|0\.092|15\.0|54\.0|0\.997|3\.26|0\.65|9\.8|0|
+|3|11\.2|0\.28|0\.56|1\.9|0\.075|17\.0|60\.0|0\.998|3\.16|0\.58|9\.8|0|
+|4|7\.4|0\.7|0\.0|1\.9|0\.076|11\.0|34\.0|0\.9978|3\.51|0\.56|9\.4|0|
 
 ```
 
