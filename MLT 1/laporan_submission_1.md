@@ -15,24 +15,33 @@ Dengan memanfaatkan dataset seperti Pima Indian Diabetes Dataset yang telah bany
 - Sinha, R., Vennela, B. S., & Babu, S. (2024). *Early Diabetes Prediction using Machine Learning Algorithms*. 2024 3rd International Conference on Applied Artificial Intelligence and Computing (ICAAIC). https://doi.org/10.1109/ICAAIC60222.2024.10575581
 - Alzboon, M. S., Al-Batah, M. S., Alqaraleh, M., Abuashour, A., & Bader, A. F. H. (2023). *Early Diagnosis of Diabetes: A Comparison of Machine Learning Methods*. International Journal of Online and Biomedical Engineering (iJOE). https://doi.org/10.3991/ijoe.v19i15.42417
 
+---
+
 ## Business Understanding
 
 ### Problem Statements
-Diabetes merupakan penyakit kronis yang prevalensinya terus meningkat di seluruh dunia. Deteksi dini terhadap diabetes sangat penting karena dapat mengurangi risiko komplikasi serius. Namun, pemeriksaan medis konvensional sering kali memerlukan waktu, biaya, dan akses ke fasilitas kesehatan yang memadai, yang belum tentu tersedia untuk semua lapisan masyarakat.
 
-Permasalahan yang dihadapi adalah bagaimana membangun sebuah sistem yang mampu melakukan deteksi dini diabetes secara otomatis dan efisien berdasarkan data klinis dasar, agar dapat membantu proses diagnosis awal, terutama di daerah dengan keterbatasan sumber daya medis.
+Kualitas anggur merupakan faktor penting dalam industri minuman fermentasi, baik untuk produsen maupun konsumen. Evaluasi kualitas anggur secara tradisional memerlukan panel ahli uji rasa (wine tasters) yang memakan waktu dan biaya, serta bersifat subjektif. Hal ini menimbulkan kebutuhan untuk metode penilaian kualitas anggur yang lebih objektif dan efisien.
+
+Permasalahan yang dihadapi adalah bagaimana membangun sistem prediksi kualitas anggur berdasarkan data fisikokimia dari sampel anggur, tanpa harus melibatkan uji organoleptik (cita rasa). Dengan pendekatan ini, produsen dapat dengan cepat menilai potensi kualitas produk selama proses produksi atau pengujian mutu.
 
 ### Goals
-Tujuan dari proyek ini adalah untuk membangun model machine learning yang mampu mengklasifikasikan apakah seseorang mengidap diabetes atau tidak, berdasarkan data seperti kadar glukosa, tekanan darah, indeks massa tubuh, usia, dan variabel relevan lainnya. Sistem ini diharapkan dapat menjadi alat bantu yang efektif dalam proses skrining awal terhadap diabetes.
+
+Tujuan dari proyek ini adalah untuk membangun model machine learning yang mampu memprediksi kualitas anggur merah (dalam bentuk skor numerik atau kelas) berdasarkan parameter-parameter seperti kadar alkohol, pH, keasaman volatil, sulfur dioksida, densitas, dan variabel fisikokimia lainnya yang tercantum dalam dataset.
+
+Sistem ini diharapkan dapat membantu industri anggur dalam meningkatkan efisiensi kontrol kualitas dan membuat keputusan produksi yang lebih cepat dan berbasis data.
 
 ### Solution Statement
-Untuk mencapai tujuan di atas, solusi yang diusulkan meliputi:
 
-1. **Membangun model klasifikasi menggunakan algoritma Logistic Regression** sebagai baseline model karena sifatnya yang sederhana dan interpretatif.
-2. **Menguji alternatif algoritma seperti Random Forest atau Support Vector Machine (SVM)** yang memiliki performa tinggi pada berbagai studi klasifikasi medis.
-3. **Mengukur performa model menggunakan metrik evaluasi** seperti akurasi, precision, recall, dan f1-score untuk menentukan model terbaik.
+Untuk mencapai tujuan tersebut, solusi yang akan dikembangkan meliputi:
 
-Pendekatan ini memastikan bahwa solusi yang dikembangkan tidak hanya efektif, tetapi juga terukur dan dapat dijelaskan secara statistik.
+1. **Prapemrosesan dan eksplorasi dataset `winequality-red.csv`** untuk memahami distribusi fitur dan target (kualitas).
+2. **Pembangunan model prediksi menggunakan algoritma machine learning seperti Logistic Regression dan Random Forest**, dengan mempertimbangkan juga metode regresi atau klasifikasi tergantung pada skema target (diskret atau kontinu).
+3. **Evaluasi performa model menggunakan metrik seperti akurasi, precision, recall, f1-score (jika klasifikasi), atau RMSE dan MAE (jika regresi)**, untuk memilih model terbaik yang dapat diandalkan dalam skenario nyata.
+
+Pendekatan ini memastikan bahwa model yang dibangun tidak hanya akurat tetapi juga praktis digunakan dalam konteks industri anggur.
+
+---
 
 ## Data Understanding
 
