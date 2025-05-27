@@ -299,7 +299,7 @@ Tiga algoritma klasifikasi digunakan dalam proyek ini. Pemilihan algoritma ini d
 #### 1. **Logistic Regression** 
 
 **Logistic Regression** adalah model klasifikasi yang digunakan untuk memprediksi probabilitas suatu kejadian dengan menggunakan fungsi logistik (sigmoid). Fungsi ini memetakan output ke dalam rentang 0 hingga 1, yang dapat diinterpretasikan sebagai probabilitas kelas positif. Model ini mengasumsikan hubungan linear antara fitur dan log-odds dari probabilitas kelas positif. Formula untuk prediksi probabilitas adalah:  
-![logreg](logreg.png)
+![logreg](Img/logreg.png)
 
 adalah fitur input. Model ini menggunakan fungsi log-likelihood untuk mengoptimalkan koefisien selama proses pelatihan.
    - **Kelebihan**: Cepat dilatih, menghasilkan output probabilistik, mudah diinterpretasikan, dan sangat cocok untuk klasifikasi biner.
@@ -308,14 +308,14 @@ adalah fitur input. Model ini menggunakan fungsi log-likelihood untuk mengoptima
 #### 2. **Random Forest**
 
 **Random Forest** adalah metode ensemble yang membangun banyak pohon keputusan (decision trees) dan menggabungkan hasil prediksi mereka untuk menghasilkan keputusan akhir. Setiap pohon dibangun menggunakan subset acak dari data dan fitur untuk mengurangi overfitting dan meningkatkan generalisasi. Proses pelatihan melibatkan pemilihan subset acak dari data dan pemilihan acak fitur pada setiap split pohon. Hasil prediksi untuk klasifikasi diambil dengan **voting** mayoritas dari semua pohon, sedangkan untuk regresi menggunakan rata-rata dari hasil pohon. Proses ini dapat digambarkan dengan formula berikut:  
-![rf](rf.png)  
+![rf](Img/rf.png)  
 Di mana \( f(x) \) adalah prediksi akhir, \( N \) adalah jumlah pohon dalam hutan, dan \( T_i(x) \) adalah prediksi dari pohon ke-i untuk input \( x \).
    - **Kelebihan**: Mampu menangani outlier dan relasi non-linear, serta tahan terhadap overfitting.
    - **Kekurangan**: Lebih kompleks, lebih sulit dijelaskan kepada pihak non-teknis, dan bisa kurang efisien saat fitur tidak relevan.
 
 #### 3. **Support Vector Machine (SVM)**
 **Support Vector Machine (SVM)** adalah algoritma klasifikasi yang memetakan data ke ruang vektor berdimensi lebih tinggi dan mencari **hyperplane** yang memaksimalkan margin antara dua kelas. Dalam SVM, tujuan utama adalah menemukan hyperplane yang memisahkan dua kelas dengan margin terbesar. Formula untuk mencari hyperplane yang optimal adalah sebagai berikut:  
-![svm](svm.png)  
+![svm](Img/svm.png)  
 Di sini, \( w \) adalah vektor bobot, \( b \) adalah bias, dan \( x \) adalah input data. SVM juga menggunakan fungsi kernel untuk mengubah data ke ruang yang lebih tinggi jika data tidak dapat dipisahkan secara linear. Fungsi kernel yang umum digunakan termasuk linear, polinomial, dan Gaussian Radial Basis Function (RBF). 
 SVM berfokus pada **support vectors**, yaitu data titik yang paling dekat dengan hyperplane, yang menentukan margin.
    - **Kelebihan**: Efektif untuk dataset berdimensi menengah dan mampu membangun margin klasifikasi yang kuat.
@@ -376,12 +376,9 @@ Hasil evaluasi model sebagai berikut:
 
 ### Pemilihan Model Terbaik
 
-Berdasarkan hasil evaluasi, **Logistic Regression dipilih sebagai model terbaik** karena:
-
-- Mencapai skor **tertinggi di seluruh metrik utama** (Accuracy, Precision, F1-Score).
-- Model ini menghasilkan **output probabilistik**, yang relevan untuk penilaian risiko dalam diagnosis klinis.
-- **Mudah dijelaskan** kepada tenaga medis, karena bobot fitur dapat ditafsirkan sebagai pengaruh langsung terhadap kemungkinan diabetes.
-- Lebih ringan secara komputasi dan cepat dieksekusi untuk inferensi real-time.
+* **Random Forest unggul di seluruh metrik evaluasi** (accuracy, precision, recall, dan F1-score), menjadikannya **pilihan terbaik untuk prediksi kualitas anggur merah**.
+* Nilai **recall yang tinggi (82.48%)** menunjukkan bahwa model ini mampu **mengenali hampir semua sampel anggur berkualitas baik**, yang penting untuk menghindari kegagalan dalam mengidentifikasi produk unggulan selama proses kontrol kualitas.
+* Kombinasi **precision (77.40%) dan F1-score (79.86%)** menunjukkan bahwa model ini **seimbang dan andal**, baik dalam mengidentifikasi anggur berkualitas tinggi maupun menghindari kesalahan dalam klasifikasi, yang sangat berguna bagi produsen dalam menjaga efisiensi dan konsistensi mutu produk tanpa uji rasa manual yang mahal.
 
 ### Catatan: Tuning Model
 
@@ -401,7 +398,7 @@ Untuk mengevaluasi performa model dalam tugas klasifikasi biner (diabetes atau t
   Persentase prediksi yang benar dari keseluruhan data.  
   Rumus:  
   
-  ![acc](acc.png)
+  ![acc](Img/acc.png)
 
   Di mana:
   - **TP (True Positive)**: Prediksi positif yang benar (diabetes → diabetes)
@@ -412,21 +409,21 @@ Untuk mengevaluasi performa model dalam tugas klasifikasi biner (diabetes atau t
 - **Precision**  
   Seberapa tepat model saat memprediksi pasien sebagai penderita diabetes.  
   
-  ![prec](prec.png)
+  ![prec](Img/prec.png)
 
   Artinya, dari seluruh kasus yang diprediksi sebagai diabetes, seberapa banyak yang benar-benar diabetes.
 
 - **Recall**  
   Kemampuan model untuk menemukan semua kasus diabetes yang sebenarnya ada.  
   
-  ![recall](recall.png)
+  ![recall](Img/recall.png)
 
   Semakin tinggi recall, semakin sedikit pasien diabetes yang luput dari deteksi (false negative rendah).
 
 - **F1-Score**  
   Rata-rata harmonis dari precision dan recall, menyeimbangkan keduanya.  
   
-  ![f1](f1.png)
+  ![f1](Img/f1.png)
 
   Berguna saat kita perlu mempertimbangkan **kesalahan dua arah (false positive & false negative)** secara bersamaan, seperti dalam diagnosis penyakit.
 
@@ -435,16 +432,16 @@ Untuk mengevaluasi performa model dalam tugas klasifikasi biner (diabetes atau t
 Hasil evaluasi dari ketiga model:
 
 | Model               | Accuracy | Precision | Recall | F1-Score |
-|---------------------|----------|-----------|--------|----------|
-| **Logistic Regression** | **0.779** | **0.717**   | **0.655** | **0.684**  |
-| Random Forest       | 0.740    | 0.615     | 0.636  | 0.625    |
-| SVM                 | 0.727    | 0.654     | 0.564  | 0.606    |
+|--------------------|----------|-----------|--------|----------|
+| SVM                | 0.593    | 0.561     | **0.876**  | 0.685    |
+| **Random Forest**      | **0.791**    | **0.774**     | 0.825  | **0.798**    |
+| Logistic Regression| 0.750    | 0.741     | 0.774  | 0.757    |
 
-### Interpretasi Hasil
+### Pemilihan Model Terbaik
 
-- **Logistic Regression unggul di seluruh metrik**, menjadikannya pilihan terbaik untuk kasus ini.
-- Metrik **recall yang cukup tinggi (65.5%)** penting dalam konteks medis untuk meminimalkan pasien diabetes yang tidak terdeteksi (false negative).
-- Kombinasi **precision (71.7%) dan F1-score (68.4%)** menunjukkan model seimbang dalam meminimalkan prediksi salah positif maupun negatif.
+* **Random Forest unggul di seluruh metrik evaluasi** (accuracy, precision, recall, dan F1-score), menjadikannya **pilihan terbaik untuk prediksi kualitas anggur merah**.
+* Nilai **recall yang tinggi (82.5%)** menunjukkan bahwa model ini mampu **mengenali hampir semua sampel anggur berkualitas baik**, yang penting untuk menghindari kegagalan dalam mengidentifikasi produk unggulan selama proses kontrol kualitas.
+* Kombinasi **precision (77.4%) dan F1-score (79.8%)** menunjukkan bahwa model ini **seimbang dan andal**, baik dalam mengidentifikasi anggur berkualitas tinggi maupun menghindari kesalahan dalam klasifikasi, yang sangat berguna bagi produsen dalam menjaga efisiensi dan konsistensi mutu produk tanpa uji rasa manual yang mahal.
 
 ### Kesimpulan
 
